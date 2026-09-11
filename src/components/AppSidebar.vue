@@ -42,7 +42,7 @@ async function doLogout() {
 <template>
   <!-- 移动端：抽屉；桌面端：固定侧栏 -->
   <aside
-    class="fixed inset-y-0 left-0 z-50 flex h-full w-64 shrink-0 flex-col border-r bg-card transition-transform duration-200 md:static md:translate-x-0"
+    class="fixed inset-y-0 left-0 z-50 flex h-full w-64 shrink-0 flex-col border-r bg-card/80 backdrop-blur-xl transition-colors duration-200 md:static md:translate-x-0 dark:bg-card/70"
     :class="open ? 'translate-x-0' : '-translate-x-full'"
   >
     <RouterLink to="/" class="flex items-center gap-2 px-4 py-4 font-semibold" @click="goHome">
@@ -96,7 +96,9 @@ async function doLogout() {
             :class="activeSlug === t.slug && 'bg-accent text-accent-foreground'"
             @click="go(t.slug)"
           >
-            <component :is="t.icon" class="h-4 w-4" /> {{ t.name }}
+            <component :is="t.icon" class="h-4 w-4 shrink-0" />
+            <span class="truncate">{{ t.name }}</span>
+            <span v-if="t.backend" class="ml-auto flex shrink-0 items-center rounded bg-amber-500/15 px-1 text-[10px] font-medium text-amber-600 dark:text-amber-400" title="需要登录">登录</span>
           </button>
         </div>
       </template>

@@ -7,13 +7,32 @@ dist/
 # 运行时数据（数据库、密钥，含敏感信息）
 data/
 
-# 日志
-*.log
+# 环境变量（API 密钥）
+.env
+.env.*
+!.env.example
 
-# 编辑器
+# 日志
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 编辑器 / IDE
 .vscode/
 .idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# TRAE 本地会话
+.trae/
 
 # 系统文件
 .DS_Store
 Thumbs.db
+desktop.ini

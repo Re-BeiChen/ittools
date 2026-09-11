@@ -9,6 +9,19 @@ import { pasteRoutes } from './routes/paste'
 import { ratesRoutes } from './routes/rates'
 import { shortenRoutes } from './routes/shorten'
 import { siteCheckRoutes } from './routes/sitecheck'
+import { whoisRoutes } from './routes/whois'
+import { dnsRoutes } from './routes/dns'
+
+// 加载 .env 中的环境变量（API 密钥等），已存在的环境变量优先
+const envPath = path.resolve(process.cwd(), '.env')
+if (fs.existsSync(envPath)) {
+  for (const line of fs.readFileSync(envPath, 'utf8').split('\n')) {
+    const m = line.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)\s*$/)
+    if (m && process.env[m[1]] === undefined) {
+      process.env[m[1]] = m[2].replace(/^["']|["']$/g, '')
+    }
+  }
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const PORT = Number(process.env.PORT ?? 3000)
@@ -29,6 +42,8 @@ await app.register(shortenRoutes)
 await app.register(ipRoutes)
 await app.register(siteCheckRoutes)
 await app.register(ratesRoutes)
+await app.register(whoisRoutes)
+await app.register(dnsRoutes)
 
 // paste 短码页面（前端渲染）
 app.setNotFoundHandler(async (req, reply) => {

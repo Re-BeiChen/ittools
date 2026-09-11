@@ -118,27 +118,66 @@
   --ring: oklch(0.708 0 0);
   --radius: 0.625rem;
 }
+/* ============ 毛玻璃卡片 ============
+ * .glass-card：仅保留轻微半透明与悬停动效，不做强 backdrop 模糊。
+ * 避免对 bg-card 元素施加 backdrop-filter——多个同层毛玻璃元素叠加
+ * 会让 Chromium 在边界合成时光晕泛白（视觉 bug）。
+ */
+.glass-card {
+  position: relative;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+/* 深色下工具卡片统一内高光描边 */
+.dark .rounded-xl,
+.dark .rounded-2xl {
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.06);
+}
+/* 卡片描边提亮 */
+.dark .glass-card,
+.dark .bg-card,
+.dark [class*="bg-card/"] {
+  border-color: oklch(1 0 0 / 0.18);
+}
+@media (min-width: 768px) {
+  main {
+    scrollbar-width: thin;
+    scrollbar-color: oklch(1 0 0 / 0.16) transparent;
+  }
+  main::-webkit-scrollbar {
+    width: 8px;
+  }
+  main::-webkit-scrollbar-thumb {
+    background: oklch(1 0 0 / 0.16);
+    border-radius: 9999px;
+  }
+}
 
 .dark {
-  --background: oklch(0.145 0 0);
+  /* 冷蓝灰深色主题（卡面接近实底，避免过度透明造成的脏感） */
+  --background: oklch(0.14 0.02 255);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: oklch(0.2 0.03 260 / 0.92);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: oklch(0.2 0.025 255 / 0.97);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
+  --primary: oklch(0.93 0.02 260);
+  --primary-foreground: oklch(0.16 0.02 255);
+  --secondary: oklch(0.23 0.03 260 / 0.9);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+  --muted: oklch(0.18 0.03 255 / 0.95);
+  --muted-foreground: oklch(0.7 0.02 255);
+  --accent: oklch(0.26 0.04 260 / 0.95);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --border: oklch(1 0 0 / 0.13);
+  --input: oklch(1 0 0 / 0.14);
+  --ring: oklch(1 0 0 / 0.3);
 }
 
 @theme inline {
@@ -179,5 +218,9 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
+  }
+  /* 深色纯色背景 */
+  .dark body {
+    background-color: #141b2e;
   }
 }

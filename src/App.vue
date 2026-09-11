@@ -18,7 +18,7 @@ const bare = computed(() => !!route.meta.bare)
 <template>
   <RouterView v-if="bare" />
 
-  <div v-else class="flex h-screen overflow-hidden bg-background">
+  <div v-else class="flex h-screen overflow-hidden bg-background dark:bg-transparent">
     <!-- 移动端遮罩 -->
     <Transition name="fade">
       <div
