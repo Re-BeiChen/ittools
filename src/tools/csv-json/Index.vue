@@ -163,7 +163,7 @@ function doJsonToCsv() {
           <ArrowUp /> JSON → CSV
         </Button>
         <div class="flex items-center gap-2">
-          <Switch v-model:checked="firstRowHeader" />
+          <Switch v-model="firstRowHeader" />
           <Label class="text-xs text-muted-foreground">首行作为表头（CSV → JSON）</Label>
         </div>
       </div>

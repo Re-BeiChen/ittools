@@ -52,7 +52,7 @@ function doDecode() {
           </Button>
         </div>
         <div class="flex items-center gap-2">
-          <Switch id="component" v-model:checked="component" />
+          <Switch id="component" v-model="component" />
           <Label for="component" class="text-xs text-muted-foreground">component 模式（含 / ? & = 等特殊字符）</Label>
         </div>
       </div>

@@ -66,8 +66,8 @@ const flagList = ['g', 'i', 'm', 's']
         <div v-for="f in flagList" :key="f" class="flex items-center gap-1.5">
           <Switch
             :id="`flag-${f}`"
-            :checked="flags.includes(f)"
-            @update:checked="(v?: boolean) => flags = v ? flags + f : flags.replace(f, '')"
+            :model-value="flags.includes(f)"
+            @update:model-value="(v: boolean) => flags = v ? flags + f : flags.replace(f, '')"
           />
           <Label :for="`flag-${f}`" class="font-mono text-xs">{{ f }}</Label>
         </div>

@@ -89,7 +89,7 @@ async function copy() {
           </Select>
         </div>
         <div class="flex items-center gap-2">
-          <Switch id="burn" v-model:checked="burn" />
+          <Switch id="burn" v-model="burn" />
           <Label for="burn" class="text-sm">阅后即焚</Label>
         </div>
         <Button class="ml-auto" :disabled="sharing" @click="create">

@@ -91,19 +91,19 @@ generate()
         <div class="grid grid-cols-2 gap-3">
           <div class="flex items-center justify-between rounded-md border px-3 py-2">
             <Label for="upper" class="text-sm">大写 A-Z</Label>
-            <Switch id="upper" v-model:checked="useUpper" @update:checked="generate" />
+            <Switch id="upper" v-model="useUpper" @update:model-value="generate" />
           </div>
           <div class="flex items-center justify-between rounded-md border px-3 py-2">
             <Label for="lower" class="text-sm">小写 a-z</Label>
-            <Switch id="lower" v-model:checked="useLower" @update:checked="generate" />
+            <Switch id="lower" v-model="useLower" @update:model-value="generate" />
           </div>
           <div class="flex items-center justify-between rounded-md border px-3 py-2">
             <Label for="digits" class="text-sm">数字 0-9</Label>
-            <Switch id="digits" v-model:checked="useDigits" @update:checked="generate" />
+            <Switch id="digits" v-model="useDigits" @update:model-value="generate" />
           </div>
           <div class="flex items-center justify-between rounded-md border px-3 py-2">
             <Label for="symbols" class="text-sm">符号 !@#$</Label>
-            <Switch id="symbols" v-model:checked="useSymbols" @update:checked="generate" />
+            <Switch id="symbols" v-model="useSymbols" @update:model-value="generate" />
           </div>
         </div>
         <Button class="w-full" @click="generate">

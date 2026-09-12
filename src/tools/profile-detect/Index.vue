@@ -617,7 +617,7 @@ function toggleDim(k: string) {
                 </div>
                 <p class="text-xs text-muted-foreground">共享定位用于坐标级画像交叉校验</p>
               </div>
-              <Switch :checked="shareLoc" @update:checked="shareLoc = !!$event; shareLocation()" />
+              <Switch v-model="shareLoc" @update:model-value="shareLocation()" />
             </div>
             <p v-if="locState === 'asking'" class="text-xs text-sky-500">正在请求定位授权…</p>
             <p v-else-if="locState === 'denied'" class="text-xs text-muted-foreground">定位权限已拒绝，本次不纳入坐标校验</p>
