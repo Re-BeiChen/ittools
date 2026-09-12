@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "IT Tools 系统架构",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "views": [
+      { "id": "request-path", "label": "主请求链路", "focus": ["browser", "caddy", "vue-spa", "fastify", "api-routes", "sqlite", "ext-apis"], "note": "从浏览器到数据库与外部 API 的完整请求路径。" },
+      { "id": "auth-flow", "label": "认证与会话", "focus": ["browser", "caddy", "fastify", "auth", "sqlite"], "note": "Cookie 会话、角色权限与登录限速的认证链路。" },
+      { "id": "external-sources", "label": "多源数据负载均衡", "focus": ["api-routes", "ext-apis"], "note": "IP 查询 7 源、汇率 4 源轮询，故障摘除与结果缓存。" }
+    ]
+  },
+  "components": [
+    { "id": "browser", "type": "external", "label": "用户浏览器", "sublabel": "桌面·移动端", "pos": [20, 210], "size": [130, 70] },
+    { "id": "caddy", "type": "cloud", "label": "Caddy", "sublabel": "HTTPS 反代", "pos": [190, 210], "size": [130, 70] },
+    { "id": "vue-spa", "type": "frontend", "label": "Vue 3 前端", "sublabel": "36 工具 · 10 分类", "pos": [360, 100], "size": [140, 70], "tag": "SPA" },
+    { "id": "fastify", "type": "backend", "label": "Fastify 服务", "sublabel": "Node.js :3000", "pos": [360, 320], "size": [140, 70] },
+    { "id": "auth", "type": "security", "label": "认证模块", "sublabel": "scrypt · 会话", "pos": [540, 100], "size": [140, 70], "tag": "RBAC" },
+    { "id": "api-routes", "type": "backend", "label": "API 路由", "sublabel": "paste / ip / rates", "pos": [540, 320], "size": [140, 70] },
+    { "id": "sqlite", "type": "database", "label": "SQLite", "sublabel": "用户·会话·分享", "pos": [720, 210], "size": [130, 70] },
+    { "id": "ext-apis", "type": "external", "label": "外部数据源", "sublabel": "IP 7 源 · 汇率 4 源", "pos": [890, 210], "size": [140, 70] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "服务器", "wraps": ["caddy", "vue-spa", "fastify", "auth", "api-routes", "sqlite"] }
+  ],
+  "connections": [
+    { "id": "browser-caddy", "from": "browser", "to": "caddy", "label": "HTTPS", "variant": "emphasis" },
+    { "id": "caddy-vue", "from": "caddy", "to": "vue-spa", "label": "静态资源", "variant": "dashed", "fromSide": "right", "toSide": "left", "labelAt": [340, 184] },
+    { "id": "caddy-fastify", "from": "caddy", "to": "fastify", "label": "/api 代理", "variant": "emphasis", "fromSide": "right", "toSide": "left", "labelAt": [340, 404] },
+    { "id": "vue-fastify", "from": "vue-spa", "to": "fastify", "label": "API 调用", "fromSide": "bottom", "toSide": "top", "labelDx": -30, "labelDy": 80 },
+    { "id": "fastify-auth", "from": "fastify", "to": "auth", "label": "会话校验", "variant": "security", "fromSide": "top", "toSide": "bottom", "labelDx": 30 },
+    { "id": "fastify-routes", "from": "fastify", "to": "api-routes", "label": "路由分发", "fromSide": "right", "toSide": "left", "labelAt": [520, 404] },
+    { "id": "auth-sqlite", "from": "auth", "to": "sqlite", "label": "用户/会话", "variant": "dashed", "fromSide": "bottom", "toSide": "top", "labelAt": [655, 256] },
+    { "id": "routes-sqlite", "from": "api-routes", "to": "sqlite", "label": "数据读写", "fromSide": "top", "toSide": "bottom", "labelDy": -30 },
+    { "id": "routes-ext", "from": "api-routes", "to": "ext-apis", "label": "多源轮询", "variant": "dashed", "labelDy": 30 }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "接入层", "items": ["Caddy 提供 HTTPS 与反代", "Vue SPA 静态资源由 Fastify 托管", "未匹配路由回退 index.html 供前端路由"] },
+    { "dot": "emerald", "title": "应用层", "items": ["Fastify + 8 组 API 路由", "基于 Cookie 的会话认证", "角色权限：admin / sub_admin / user", "登录限速 5 次/15 分钟"] },
+    { "dot": "amber", "title": "数据与外部", "items": ["SQLite 存储用户/会话/分享/短链", "IP 查询 7 源轮询 + 10 分钟缓存", "汇率 4 源轮询 + 1 小时缓存", "连续失败 3 次自动摘除 10 分钟"] }
+  ]
+}
